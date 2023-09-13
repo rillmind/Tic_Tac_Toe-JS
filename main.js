@@ -2,9 +2,9 @@ const status_display = document.querySelector('.game--status')
 let game_activate = true
 let current_player = 'X'
 let game_state = ["", "", "", "", "", "", "", "", ""]
-const winning_message = () => { `${current_player} Ganhou!` }
-const draw_message = () => { 'Empate!' }
-const current_player_turn = () => { `É a vez de ${current_player}` }
+const winning_message = () => { return `${current_player} Ganhou!` }
+const draw_message = () => { return 'Empate!' }
+const current_player_turn = () => { return `É a vez de ${current_player}` }
 
 status_display.innerHTML = current_player_turn()
 
@@ -20,12 +20,12 @@ function handle_cell_played(clicked_cell, clicked_cell_index) {
         [1, 4, 7],
         [2, 5, 8],
         [0, 4, 8],
-        [2, 4, 6],
+        [2, 4, 6]
     ]
 
     function handle_result_validation() {
         let round_won = false
-        for (let i = 0; i <= 7; i++) {
+        for (let i = 0; i < 8; i++) {
             const win_condition = winning_conditions[i]
             let a = game_state[win_condition[0]]
             let b = game_state[win_condition[1]]
@@ -34,7 +34,7 @@ function handle_cell_played(clicked_cell, clicked_cell_index) {
             if (a === b && b === c) { round_won = true; break }
         }
         if (round_won) {
-            status_display.innerHTML == winning_message()
+            status_display.innerHTML = winning_message()
             game_activate = false
             return
         }
@@ -44,13 +44,14 @@ function handle_cell_played(clicked_cell, clicked_cell_index) {
             game_activate = false
             return
         }
-        handle_player_chage()
     }
+    handle_result_validation()
+    handle_player_chage()
 }
 
 function handle_player_chage() {
     current_player = current_player === "X" ? "O" : "X"
-    status_display.innerHTML == current_player_turn()
+    status_display.innerHTML = current_player_turn()
 }
 
 function handle_cell_click(clicked_cell_event) {
@@ -70,4 +71,4 @@ function handle_restart_game() {
 }
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handle_cell_click))
-document.querySelector('.game--start').addEventListener('click', handle_restart_game)
+document.querySelector('.game--restart').addEventListener('click', handle_restart_game)
